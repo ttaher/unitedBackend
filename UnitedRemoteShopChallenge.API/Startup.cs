@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
+using UnitedRemoteShopChallenge.API.Services;
 using UnitedRemoteShopChallenge.Data;
-using UnitedRemoteShopChallenge.Data.Model;
+using UnitedRemoteShopChallenge.Data.Repositories;
+
 
 namespace UnitedRemoteShopChallenge.API
 {
@@ -33,8 +35,13 @@ namespace UnitedRemoteShopChallenge.API
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             }));
-
+            //Add dependencies
+            services.AddTransient(typeof(IRepository<,>), typeof(UnitedRemoteRepositoryBase<,>));
+            services.AddTransient(typeof(IUnitedRemoteService), typeof(UnitedRemoteService));
             services.AddDbContext<UnitedRemoteDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+#pragma warning disable CS0618 // Type or member is obsolete
+            services.AddAutoMapper();
+#pragma warning restore CS0618 // Type or member is obsolete
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<UnitedRemoteDbContext>();
 
@@ -57,6 +64,7 @@ namespace UnitedRemoteShopChallenge.API
                     ValidateIssuerSigningKey = true
                 };
             });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -74,11 +82,9 @@ namespace UnitedRemoteShopChallenge.API
                 app.UseHsts();
             }
             app.UseStaticFiles();
-             
             app.UseHttpsRedirection();
             app.UseMvc();
         }
-         
 
     }
 }

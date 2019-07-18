@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using UnitedRemoteShopChallenge.Data.Model;
+
 namespace UnitedRemoteShopChallenge.Data
 {
     public class UnitedRemoteDbContext : IdentityDbContext<IdentityUser>
@@ -17,5 +19,8 @@ namespace UnitedRemoteShopChallenge.Data
         {
             base.OnConfiguring(optionsBuilder);
         }
+        public DbSet<Shop> Shops { get; set; }
+        public DbSet<ShopsNotPreferred> ShopsNotPreferreds { get; set; }
+        public DbSet<ShopsPreferred> ShopsPreferred { get; set; }
     }
 }

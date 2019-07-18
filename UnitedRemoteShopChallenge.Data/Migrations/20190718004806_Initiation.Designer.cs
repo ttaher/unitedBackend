@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UnitedRemoteShopChallenge.Data;
 
 namespace UnitedRemoteShopChallenge.Data.Migrations
 {
     [DbContext(typeof(UnitedRemoteDbContext))]
-    partial class UnitedRemoteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190718004806_Initiation")]
+    partial class Initiation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,26 +238,6 @@ namespace UnitedRemoteShopChallenge.Data.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("UnitedRemoteShopChallenge.Data.Model.ShopsNotPreferred", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ShopId");
-
-                    b.Property<Guid>("ShopsPreferredId");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShopId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShopsNotPreferreds");
-                });
-
             modelBuilder.Entity("UnitedRemoteShopChallenge.Data.Model.ShopsPreferred", b =>
                 {
                     b.Property<Guid>("Id")
@@ -316,19 +298,6 @@ namespace UnitedRemoteShopChallenge.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("UnitedRemoteShopChallenge.Data.Model.ShopsNotPreferred", b =>
-                {
-                    b.HasOne("UnitedRemoteShopChallenge.Data.Model.Shop", "Shop")
-                        .WithMany()
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("UnitedRemoteShopChallenge.Data.Model.IdnentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
