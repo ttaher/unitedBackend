@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'steam-linux'
+  name: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
